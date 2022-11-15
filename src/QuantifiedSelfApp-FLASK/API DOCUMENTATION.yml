@@ -1,0 +1,414 @@
+openapi: 3.0.0
+info:
+  title: Lyf Record
+  description: >-
+    This is the API for my MAD1 project - lyf Record. Basic CRUD operations can
+    be used from here
+  version: 1.2.0
+servers:
+  - url: https://127.0.0.1:5000/api/
+  - url: https://localhost:5000/api/
+tags:
+  - name: Overview
+    description: Overview operations
+  - name: Tracker's specific
+    description: Tracker specific operations
+  - name: Log's specific
+    description: Log values specific operations
+paths:
+
+  /login/:
+    description: Login to the app
+    post:
+      summary: For logging in the user
+      description: For logging in the user.
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: Pushpak
+                password:
+                  type: string
+                  format: password
+                  example: abcd
+                
+      tags: [Overview]
+      responses:
+        '200':
+          description: Succesful
+        '406':
+          description: incorrect username/password
+          
+  /signup/:
+    description: signup with an account on the app
+    post:
+      summary: For creating a user
+      description: For creating a user
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+                - email
+              properties:
+                username:
+                  type: string
+                  example: Pushpak
+                password:
+                  type: string
+                  format: password
+                  example: abcd
+                email:
+                  type: string
+                  format: email
+                
+      tags: [Overview]
+      responses:
+        '200':
+          description: Succesful
+        '406':
+          description: Failed
+          
+        
+        
+  
+  
+  /dashboard/:
+    summary: This URI will fetch all the dashboard related details
+    description: >-
+      These details include -> Streak count, tracker count, member since, list
+      of trackers, homepage graph.
+    get:
+      summary: Get dashboard info
+      description: >-
+        GET request to get all the following details -> Streak count, trackers 
+        count, member since, list of trackers, homepage graph.
+      operationId: ''
+      responses:
+        '200':
+          description: Succesful
+      tags: [Overview]
+  /trackers/view/:
+    summary: To view all the trackers for the user
+    description: >-
+      shows all the trackers with their details at the mentioned URI. Filters
+      the trackers according to the username(sign in user-name)
+    get:
+      summary: View trackers for the user
+      description: >-
+        shows all the trackers with their details at the mentioned URI.
+        Filters       the trackers according to the username
+      operationId: ''
+      tags: [Tracker's specific]
+      responses:
+        '200':
+          description: Succesful
+  /trackers/create/:
+    description: Create a new tracker resource.
+    post:
+      summary: Create tracker
+      description: For creating a new tracker.
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tracker_name
+                - tracker_type
+              properties:
+                tracker_name:
+                  type: string
+                  example: name for the tracker
+                tracker_type:
+                  type: string
+                  example: type of the tracker
+                tracker_desc:
+                  type: string
+                  example: Description for the tracker
+                mc_choices:
+                  type: string
+                  example: choices if the tracker type = multichoice
+      tags: [Tracker's specific]
+      responses:
+        '200':
+          description: Succesful
+        '408':
+          description: MC_choices required when tracker type is multi-choice
+  
+  
+  /{tracker_id}/log/:
+    description: Add log to the tracker
+    post:
+      summary: Log values
+      tags: [Log's specific]
+      description: For logging values to an existing tracker.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+                  example: Value according to the tracker
+                start_val:
+                  type: string
+                  example: If tracker type = td, then this is required. Else, error
+                end_val:
+                  type: string
+                  example: If tracker type = td, then this is required. Else, error
+                choice_list:
+                  type: string
+                  example:
+                    - choices
+                    - required
+                    - if
+                    - tracker type = mc
+                note:
+                  type: string
+                  example: A sample note for the value being logged
+                timestamp:
+                  type: string
+                  format: date-time
+                  example: '2022-07-03T19:16:44.994'
+      responses:
+        '200':
+          description: Succesful
+        '411':
+          description: Value required for this request.
+        '412':
+          description: Tracker type is time duration. Start_val, end_val not provided.
+        '413':
+          description: tracker type is multi choice. Choices not provided.
+        '500':
+          description: Internal server error.
+  
+  
+  /{tracker_id}/update/:
+    description: Update a tracker
+    patch:
+      summary: Update a tracker
+      tags: [Tracker's specific]
+      description: >-
+        For updating a tracker. Populate in the respective value, according to
+        the tracker type.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tracker_name_updated:
+                  type: string
+                  example: name for the tracker to update
+                tracker_desc_updated:
+                  type: string
+                  example: Description for the tracker to update
+      responses:
+        '200':
+          description: Succesful
+        '500':
+          description: Internal server error.
+  
+  
+  /{tracker_id}/delete/:
+    description: delete a tracker
+    delete:
+      tags: [Tracker's specific]
+      summary: Delete a tracker
+      description: For deleting an existing tracker.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      responses:
+        '200':
+          description: Succesful
+        '500':
+          description: Internal server error.
+  
+  
+  /{tracker_id}/details/:
+    description: Display details(all logs) for a tracker
+    get:
+      tags: [Log's specific]
+      summary: Display details(all logs) for a tracker
+      description: For accessing details of an existing tracker.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      responses:
+        '200':
+          description: Succesful
+        '500':
+          description: Internal server error.
+
+
+
+  /{tracker_id}/{log_id}/update/:
+    description: Update logs for a tracker
+    patch:
+      summary: Update a log
+      tags: [Log's specific]
+      description: >-
+        For updating a log for a tracker. Populate in the respective value.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+        
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+            example: 888
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+                  example: Value to update
+                start_val:
+                  type: string
+                  example: start_val to update
+                end_val:
+                  type: string
+                  example: end_val to update
+                choice_list:
+                  type: string
+                  example:
+                    - choices
+                    - to
+                    - update
+                note:
+                  type: string
+                  example: note to update
+                timestamp:
+                  type: string
+                  format: date-time
+                  example: '2022-07-03T19:16:44.994'
+      responses:
+        '200':
+          description: Succesful
+        '411':
+          description: Value required for the update request.
+        '412':
+          description: >-
+            Tracker type is time duration. Start_val, end_val not provided for
+            update.
+        '413':
+          description: tracker type is multi choice. Choices not provided for update.
+        '500':
+          description: Internal server error.
+  
+
+
+  /{tracker_id}/{log_id}/delete/:
+    description: Deleting a log for a tracker
+    delete:
+      tags: [Log's specific]
+      summary: Deleting a log for a tracker
+      description: For deleting a log of an existing tracker.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      responses:
+        '200':
+          description: Succesful
+        '500':
+          description: Internal server error.
+
+
+
+  /{tracker_id}/details/download/:
+    description: Download all logs for a tracker
+    get:
+      tags: [Log's specific]
+      summary: Download all logs for a tracker.
+      description: For downloading all the logs of an existing tracker.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 999
+      responses:
+        '200':
+          description: Succesful
+        '500':
+          description: Internal server error.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

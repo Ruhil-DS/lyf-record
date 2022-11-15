@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+Flask-restful
+Flask-Caching
+flask-cors
+flask-jwt-extended
+celery[redis]
+pdfkit

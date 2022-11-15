@@ -1,0 +1,5 @@
+TRACKER_ID,NAME,DESCRIPTION,TYPE,LAST LOGGED VALUE
+28,NumbersssUpdated,"okay lol, updated",num,2022-08-23T14:59
+38,lets see,,time_dur,2022-08-17T22:50
+52,lets see,added via the form - flask,bool,2022-08-17T22:51
+70,vueTestMC,testing the mc type,mc,2022-08-18T01:18

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+        html{
+            postion:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            overflow:auto;
+            background: #96e7e7; /* this would be your background setup */
+        }
+
+        body{
+            margin: 70px 50px 70px 50px;
+        }
+        .title{
+            text-align: center;
+            color: #39038c
+        }
+        .heading{
+            color: #39038c;
+            text-decoration: underline;
+
+        }
+
+        @media print {
+         .new-page {
+            page-break-before: always;
+         }
+        }
+
+        keep-together {
+            page-break-inside: avoid;
+        }
+
+        .break-before {
+            page-break-before: always;
+        }
+        .break-after {
+            page-break-after: always;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 class="title">
+        <img src="https://raw.githubusercontent.com/Ruhil-DS/QuantifiedSelfApp-FLASK/main/static/images/logo.svg"
+            style="height: 130px; width: 130px"> <br>
+        <u>
+            MONTHLY REPORT
+        </u>
+    </h1>
+    <p style="text-align: right"><u>DATE: {{today}}</u></p>
+    <span>Hi, {{username}}</span>
+    <br><br>
+    <p>Your monthly report for the month of {{month}} is ready.</p>
+    <p>Below is a monthly summary of your account, trackers and logs. <br>Kindly have a look at them.</p>
+    <!-- PAGE BREAK START  -->
+    <div class="break-after"></div><br><br>
+    <!-- PAGE BREAK END  -->
+
+    <img src="https://raw.githubusercontent.com/Ruhil-DS/QuantifiedSelfApp-FLASK/main/static/images/logo.svg"
+            style="height: 90px; width: 90px; float: right"> <br>
+
+    <h1 class="heading"> Your Account </h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Key</th>
+            <th scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in account_details.items() %}
+        <tr>
+            <th scope="row">1</th>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- PAGE BREAK START  -->
+    <div class="break-after"></div><br><br>
+    <!-- PAGE BREAK END  -->
+    <img src="https://raw.githubusercontent.com/Ruhil-DS/QuantifiedSelfApp-FLASK/main/static/images/logo.svg"
+            style="height: 90px; width: 90px; float: right"> <br>
+    <h2 class="heading">Your Trackers</h2>
+
+    {%if tracker_details | length>0 %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">S no</th>
+            <th scope="col">Tracker Name</th>
+            <th scope="col">Tracker Description</th>
+            <th scope="col">Tracker Type</th>
+            <th scope="col">Last logged</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tracker in tracker_details %}
+        <tr>
+             <th scope="row">{{loop.index}}</th>
+            <td>{{tracker.name}}</td>
+            <td>{{tracker.description}}</td>
+            <td>{{tracker.type}}</td>
+            <td>{{tracker.last_log}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h4> YOU DON'T HAVE ANY TRACKERS AVAILABLE ON YOUR PROFILE.</h4>
+    {% endif %}
+
+    <!-- PAGE BREAK START  -->
+    <div class="break-after"></div><br><br>
+    <!-- PAGE BREAK END  -->
+    <img src="https://raw.githubusercontent.com/Ruhil-DS/QuantifiedSelfApp-FLASK/main/static/images/logo.svg"
+            style="height: 90px; width: 90px; float: right"> <br>
+
+<div class="keep-together">
+    <h2 class="heading">Your Logs</h2>
+    {% if all_logs | length > 0 %}
+    {% for tracker_id, other_items in all_logs.items() %}
+    <h5 class="heading">Logs for {{tracker_id}} tracker ID</h5>
+
+    {% if other_items[0] == 'time_dur' %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Logged Start time</th>
+              <th scope="col">Logged End time</th>
+            <th scope="col">Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in other_items[1] %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.time_start }}</td>
+            <td>{{ log.time_end }}</td>
+            <td>{{ log.note }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Value</th>
+            <th scope="col">Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in other_items[1] %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.value }}</td>
+            <td>{{ log.note }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% endfor %}
+
+    {% else %}
+    <h4> YOU DON'T HAVE ANY LOGS AVAILABLE ON YOUR PROFILE.</h4>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
