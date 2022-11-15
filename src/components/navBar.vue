@@ -20,14 +20,6 @@
                   </span>
                 </div>
 
-                  <div class="col">
-                  <span>
-                  <router-link to="/About/">
-                    <div id="len2" class="hoverable">
-                      About
-                    </div></router-link>
-                  </span>
-                </div>
 
                 <div class="col">
                   <span>

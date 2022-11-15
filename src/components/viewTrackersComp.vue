@@ -63,7 +63,9 @@ export default {
           'Authorization': `Bearer ${localStorage.access_token}`
       }
     }).then(resp => {
-      if(resp.ok) return resp.json()
+      if(resp.ok)  {
+        return resp.json()
+      }
       else {
         this.$store.state.session = true
           localStorage.clear()
@@ -74,6 +76,8 @@ export default {
         })
     .then(data => {
       this.trackers = data
+    }).catch(e => {
+      this.$router.push({ name: 'signin-up' })
     })
   }
 }

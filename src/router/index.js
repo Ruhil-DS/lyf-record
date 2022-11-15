@@ -11,6 +11,7 @@ import updateTracker from "../views/UpdateTracker"
 import deleteTracker from "../views/deleteTracker"
 import updateLog from "../views/updateLog";
 import deleteLog from "@/views/deleteLog";
+import forgotPass from "@/views/forgotPass";
 
 const routes = [
   {
@@ -83,6 +84,12 @@ const routes = [
     path: '/:tracker_id/:log_id/delete/',
     meta: { transition: 'slide-left' },
     component: deleteLog
+  },
+    {
+    name: 'forgotPass',
+    path: '/forgot-pass/',
+    meta: { transition: 'slide-left' },
+    component: forgotPass
   }
 
 ]

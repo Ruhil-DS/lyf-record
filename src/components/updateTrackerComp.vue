@@ -74,10 +74,11 @@ export default {
   },
   methods: {
     updateTrackerAPI(){
-      fetch(`${this.$store.state.base_url}/${this.trackerID}/update/`, {
+      fetch(`${this.$store.state.base_url}/${this.$route.params.tracker_id}/update/`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
+          "mode": "cors",
           'Access-Control-Allow-Origin': '*',
           'Authorization': `Bearer ${localStorage.access_token}`
         },
@@ -99,6 +100,7 @@ export default {
         }
       }).catch(e => {
         window.alert("An error occurred while trying to perform this action.")
+        console.log(e)
         this.$router.push({name: "Dashboard"})
       })
     }

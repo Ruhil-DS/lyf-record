@@ -28,6 +28,8 @@
 
 				<div class="group">
           <button type="submit" class="button"  @click="signinCall" >Sign In</button>
+          <br>
+          <router-link :to="{name: 'forgotPass'}">forgot password? </router-link>
 				</div>
 				<div class="hr"></div>
 				<div class="foot-lnk">
@@ -47,8 +49,6 @@
 				<div class="group">
 					<label for="passSU" class="label">Password</label>
 					<input id="passSU" type="password" @input="checkPassword" class="input" v-model="su_ps" autocomplete="off" placeholder="Password" required/>
-<!--          <input id="passSU" type="password" class="input" data-type="password" v-model="su_ps" required>-->
-
 				</div>
 
 				<div class="group">

@@ -6,7 +6,7 @@
 <div style="font-family: caveat">
     <h1 class="display-3 text-center" style="font-family: 'Verdana'">Lyf Record</h1>
     <div id="polaroid" >
-        <img src="@/QuantifiedSelfApp-FLASK/static/images/logo.svg" id="polaroid_img" height="500" width="800">
+        <img src="@/QuantifiedSelfApp-FLASK/static/images/logo.svg" id="polaroid_img" >
     </div>
 
     <h3 class="text-center" >Hii, this is your go to app to keep track of majority of your activities.

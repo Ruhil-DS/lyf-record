@@ -88,7 +88,8 @@
                   <td>{{tracker[0]}}</td>
                   <td>{{tracker[1]}}</td>
                   <td>{{tracker[2]}}</td>
-                  <td><router-link :to="{name:'addLog', params:{tracker_id:key}}">log value</router-link> /
+                  <td>
+                    <router-link :to="{name:'addLog', params:{tracker_id:key}}">log value</router-link> /
                     <router-link :to="{name:'updateTracker', params:{tracker_id:key}}">update</router-link>
                     / <router-link :to="{name:'deleteTracker', params:{tracker_id:key}}">delete</router-link>
                   </td>
@@ -98,7 +99,7 @@
         </table>
 
           <template v-if="!download">
-            <button class="btn btn-outline-info me-2 btn-mini" style="width: 20%;" :onclick="downloadTrackers">
+            <button class="btn btn-outline-info me-2 btn-mini" style="width: 40%;" :onclick="downloadTrackers">
             Download Trackers' list
             </button>
           </template>
@@ -183,7 +184,7 @@ export default {
     },
     downloadTrackers(){
       this.download = false
-      fetch(`http://127.0.0.1:5000/api/trackers/download/`, {
+      fetch(`${this.$store.state.base_url}/trackers/download/`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
