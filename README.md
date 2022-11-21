@@ -17,6 +17,9 @@ Term 2(May term), 2022
 
 ## How to use
 
+NOTE - I did not copy the node_modules folder in this repository. If you decide to clone the repo and intent to use it, you need to create an empty Vue3.0 project using CLI. Copy the node modules folder into the root directory of my repo.
+
+
 Before we could use the web app, we need to setup the environment and servers for it.
 
 1) <b>Setting up the Flask server :</b>
